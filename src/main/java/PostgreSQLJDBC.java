@@ -17,7 +17,7 @@ public class PostgreSQLJDBC {
             System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT count (*) FROM wallet;" );
+            ResultSet rs = stmt.executeQuery( "SELECT count (*) FROM users;" );
             rs.next();
             int recordCount = rs.getInt(1);
             System.out.println("Total record count is - "+recordCount);
