@@ -6,21 +6,19 @@ import java.sql.Statement;
 
 public class dbConnect {
     public static void main( String args[] ) {
-        Connection c = null;
-        Statement stmt = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://192.168.0.112:5432/db",
-                            "uname", "paswd");
-            c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+        try
+        {
+            String query1 =  "SELECT count (*) FROM users";
+            Class.forName("oracle.jdbc.driver.OracleDriver");
 
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT count (*) FROM users;" );
-            rs.next();
+            Connection con = DriverManager.getConnection("jdbc:oracle:database:@localhost:1521:XE","username", "password");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query1);
+
             int recordCount = rs.getInt(1);
+
             System.out.println("Total record count is - "+recordCount);
+
             if (recordCount > 50000) {
                 System.out.println("Record count is more than 50K");
             }
@@ -29,11 +27,12 @@ public class dbConnect {
 
             rs.close();
             stmt.close();
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            con.close();
+
         }
-        System.out.println("Operation done successfully");
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
     }
 }
